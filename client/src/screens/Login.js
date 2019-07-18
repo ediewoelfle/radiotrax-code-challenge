@@ -22,15 +22,16 @@ export const Login = ({ getDevices }) => {
       })}
       onSubmit={(values, actions) => {
         const credentials = btoa(values.username + ":" + values.password);
+        console.log("credentials", credentials);
         axios
-          .get(url, { headers: { authorization: `Basic ${credentials}` } })
-          .then(
-            response => {
-              console.log("response", response);
-            },
-            error => {
-              console.log("error", error);
+          .get(url, {
+            headers: {
+              authorization: `Basic ${credentials}`
             }
+          })
+          .then(
+            response => console.log("response", response),
+            error => console.log("error", error)
           );
       }}
       render={({ errors, status, touched, isSubmitting }) => (
