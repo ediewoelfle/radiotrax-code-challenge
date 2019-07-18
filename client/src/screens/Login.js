@@ -10,11 +10,13 @@ export const Login = () => {
         username: Yup.string()
           .required("Username required.")
           .min(2, "Too Short!")
-          .max(50, "Too Long!"),
+          .max(50, "Too Long!")
+          .matches(/^[a-zA-Z]+$/, "Username must only be letters!"),
         password: Yup.string()
           .required("Password required.")
           .min(2, "Too Short!")
           .max(50, "Too Long!")
+          .matches(/^[a-zA-Z]+$/, "Username must only be letters!")
       })}
       onSubmit={(values, actions) => {
         console.log("values", values);
@@ -23,7 +25,7 @@ export const Login = () => {
       render={({ errors, status, touched, isSubmitting }) => (
         <Form>
           <Field type="text" name="username" />
-          {errors.email && touched.email && <div>{errors.email}</div>}
+          {errors.username && touched.username && <div>{errors.username}</div>}
           <Field type="password" name="password" />
           {errors.password && touched.password && <div>{errors.password}</div>}
           {status && status.msg && <div>{status.msg}</div>}
