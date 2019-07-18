@@ -5,7 +5,7 @@ export const Devices = ({ devices }) => {
     <table>
       <thead>
         <tr>
-          <th>ID</th>
+          <th>#</th>
           <th>Device ID</th>
           <th>Firmware</th>
           <th>Date Available</th>
