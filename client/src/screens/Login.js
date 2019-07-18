@@ -1,9 +1,9 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 
-export const Login = ({ url }) => {
+export const Login = props => {
+  const { login } = props;
   return (
     <Formik
       initialValues={{ username: "", password: "" }}
@@ -19,18 +19,7 @@ export const Login = ({ url }) => {
           .max(50, "Too Long!")
       })}
       onSubmit={(values, actions) => {
-        const credentials = btoa(values.username + ":" + values.password);
-        console.log("credentials", credentials);
-        axios
-          .get(url, {
-            headers: {
-              authorization: `Basic ${credentials}`
-            }
-          })
-          .then(
-            response => console.log("response", response),
-            error => console.log("error", error)
-          );
+        login(values);
       }}
       render={({ errors, status, touched, isSubmitting }) => (
         <Form>
