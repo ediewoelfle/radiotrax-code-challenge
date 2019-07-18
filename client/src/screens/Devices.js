@@ -12,11 +12,7 @@ export const Devices = props => {
     devices.map(device => device.firmware_version)
   );
 
-  console.log(firmwareVersions);
-
   const deviceIds = R.uniq(devices.map(device => device.device_id));
-
-  console.log(deviceIds);
 
   const renderFilterButton = (key, value) => {
     return (
