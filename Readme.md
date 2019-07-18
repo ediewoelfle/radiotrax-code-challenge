@@ -10,14 +10,14 @@ You will be creating a login form that takes username and password from the user
 
 1. username
 
-   - must be a text box
-   - is required
+   - must be a text box :white_check_mark:
+   - is required :white_check_mark:
    - should not contain special characters like (%, \$, &)
 
 2. password
-   - must be a text box
-   - is required
-   - password must be hidden from user as he types (example : **\***)
+   - must be a text box :white_check_mark:
+   - is required :white_check_mark:
+   - password must be hidden from user as he types (example : **\***) :white_check_mark:
 
 3) submit button
 
