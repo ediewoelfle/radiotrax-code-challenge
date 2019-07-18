@@ -47,7 +47,7 @@ class App extends React.Component {
 
   // basic login to retrieve data
   login(values) {
-    const credentials = btoa(values.username + ":" + values.password);
+    const credentials = btoa(`${values.username}:${values.password}`);
 
     axios
       .get(url, {
