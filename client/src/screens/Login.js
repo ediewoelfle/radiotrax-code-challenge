@@ -3,9 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
-const url = "http://localhost:3000/devices";
-
-export const Login = ({ getDevices }) => {
+export const Login = ({ url }) => {
   return (
     <Formik
       initialValues={{ username: "", password: "" }}
