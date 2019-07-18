@@ -31,7 +31,7 @@ class App extends React.Component {
   sortBy(key) {
     this.setState({
       ...this.state,
-      devices: R.sortBy(R.prop(key), this.state.data)
+      devices: R.sortBy(R.prop(key), this.state.devices)
     });
   }
 
