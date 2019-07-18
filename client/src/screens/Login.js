@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
-export const Login = () => {
+export const Login = ({ getDevices }) => {
   return (
     <Formik
       initialValues={{ username: "", password: "" }}
@@ -16,11 +16,11 @@ export const Login = () => {
           .required("Password required.")
           .min(2, "Too Short!")
           .max(50, "Too Long!")
-          .matches(/^[a-zA-Z]+$/, "Username must only be letters!")
       })}
       onSubmit={(values, actions) => {
-        console.log("values", values);
-        console.log("encoded", btoa(values.username + ":" + values.password));
+        const credentials = btoa(values.username + ":" + values.password);
+        const authHeader = "Basic " + credentials;
+        console.log("authHeader", authHeader);
       }}
       render={({ errors, status, touched, isSubmitting }) => (
         <Form>
