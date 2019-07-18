@@ -70,7 +70,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Login login={this.login} />
+        {!this.state.data && <Login login={this.login} />}
         <Devices
           devices={this.state.devices}
           sortBy={this.sortBy}
