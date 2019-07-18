@@ -10,18 +10,26 @@ const url = "http://localhost:3000/devices";
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    // holding for two arrays, one for display and one with the original data. Thinking of a better way to do this. --EdieDanger
     this.state = {
-      data: null
+      data: null,
+      devices: null
     };
 
     this.sortBy = this.sortBy.bind(this);
     this.login = this.login.bind(this);
   }
 
+  // using ramda functions to sort the data by a key and save to the display array
   sortBy(key) {
-    this.setState({ data: R.sortBy(R.prop(key), this.state.data) });
+    this.setState({
+      ...this.state,
+      devices: R.sortBy(R.prop(key), this.state.data)
+    });
   }
 
+  // basic login to retrieve data
   login(values) {
     const credentials = btoa(values.username + ":" + values.password);
 
@@ -33,7 +41,11 @@ class App extends React.Component {
       })
       .then(
         response => {
-          this.setState({ data: response.data });
+          this.setState({
+            ...this.state,
+            data: response.data,
+            devices: response.data
+          });
         },
         error => console.log("error", error)
       );
@@ -43,7 +55,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Login login={this.login} />
-        <Devices devices={this.state.data} sortBy={this.sortBy} />
+        <Devices devices={this.state.devices} sortBy={this.sortBy} />
       </div>
     );
   }

@@ -2,7 +2,6 @@ import React from "react";
 
 export const Devices = props => {
   const { devices, sortBy } = props;
-  console.log("props", props);
 
   if (!devices) return null;
 
