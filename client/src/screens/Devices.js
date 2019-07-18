@@ -1,22 +1,53 @@
 import React from "react";
-// import * as R from "ramda";
 
-// const sortByDate = R.sortBy(R.prop("date_device_available"));
-// const sortByBattery = R.sortBy(R.prop("battery_level"));
-// const sortyByTemp = R.sortBy(R.prop("internal_temperature"));
-// const sortById = R.sortBy(R.prop("device_id"));
+export const Devices = props => {
+  const { devices, sortBy } = props;
+  console.log("props", props);
 
-export const Devices = ({ devices }) => {
+  if (!devices) return null;
+
   return (
     <table>
       <thead>
         <tr>
           <th>#</th>
-          <th>Device Id</th>
+          <th>
+            <button
+              onClick={() => {
+                sortBy("device_id");
+              }}
+            >
+              Device Id
+            </button>
+          </th>
           <th>Firmware</th>
-          <th>Date Available</th>
-          <th>Battery Level</th>
-          <th>Temp</th>
+          <th>
+            <button
+              onClick={() => {
+                sortBy("date_device_available");
+              }}
+            >
+              Date Available
+            </button>
+          </th>
+          <th>
+            <button
+              onClick={() => {
+                sortBy("battery_level");
+              }}
+            >
+              Battery Level
+            </button>
+          </th>
+          <th>
+            <button
+              onClick={() => {
+                sortBy("internal_temperature");
+              }}
+            >
+              Temp
+            </button>
+          </th>
         </tr>
       </thead>
       <tbody>
