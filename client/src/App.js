@@ -19,6 +19,12 @@ class App extends React.Component {
 
     this.sortBy = this.sortBy.bind(this);
     this.login = this.login.bind(this);
+    this.filterBy = this.filterBy.bind(this);
+    this.reset = this.reset.bind(this);
+  }
+
+  reset() {
+    this.setState({ ...this.state, devices: this.state.data });
   }
 
   // using ramda functions to sort the data by a key and save to the display array
@@ -26,6 +32,16 @@ class App extends React.Component {
     this.setState({
       ...this.state,
       devices: R.sortBy(R.prop(key), this.state.data)
+    });
+  }
+
+  // use this for the filter
+  filterBy(key, value) {
+    this.setState({
+      ...this.state,
+      devices: R.filter(device => {
+        return device[key] === value;
+      }, this.state.data)
     });
   }
 
@@ -55,7 +71,12 @@ class App extends React.Component {
     return (
       <div className="App">
         <Login login={this.login} />
-        <Devices devices={this.state.devices} sortBy={this.sortBy} />
+        <Devices
+          devices={this.state.devices}
+          sortBy={this.sortBy}
+          filterBy={this.filterBy}
+          reset={this.reset}
+        />
       </div>
     );
   }

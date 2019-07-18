@@ -1,60 +1,99 @@
 import React from "react";
+import * as R from "ramda";
 
 export const Devices = props => {
-  const { devices, sortBy } = props;
+  const { devices, sortBy, filterBy, reset } = props;
 
   if (!devices) return null;
 
+  // get a list of all the device properties we want to filter by
+
+  const firmwareVersions = R.uniq(
+    devices.map(device => device.firmware_version)
+  );
+
+  console.log(firmwareVersions);
+
+  const deviceIds = R.uniq(devices.map(device => device.device_id));
+
+  console.log(deviceIds);
+
+  const renderFilterButton = (key, value) => {
+    return (
+      <button
+        key={value}
+        onClick={() => {
+          filterBy(key, value);
+        }}
+      >
+        {value}
+      </button>
+    );
+  };
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>
-            <button
-              onClick={() => {
-                sortBy("device_id");
-              }}
-            >
-              Device Id
-            </button>
-          </th>
-          <th>Firmware</th>
-          <th>
-            <button
-              onClick={() => {
-                sortBy("date_device_available");
-              }}
-            >
-              Date Available
-            </button>
-          </th>
-          <th>
-            <button
-              onClick={() => {
-                sortBy("battery_level");
-              }}
-            >
-              Battery Level
-            </button>
-          </th>
-          <th>
-            <button
-              onClick={() => {
-                sortBy("internal_temperature");
-              }}
-            >
-              Temp
-            </button>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {devices.map(device => (
-          <DeviceRow key={device.id} device={device} />
-        ))}
-      </tbody>
-    </table>
+    <>
+      <button
+        onClick={() => {
+          reset();
+        }}
+      >
+        RESET
+      </button>
+      {firmwareVersions.map(version =>
+        renderFilterButton("firmware_version", version)
+      )}
+      {deviceIds.map(id => renderFilterButton("device_id", id))}
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <button
+                onClick={() => {
+                  sortBy("id");
+                }}
+              >
+                #
+              </button>
+            </th>
+            <th>Device Id</th>
+            <th>Firmware</th>
+            <th>
+              <button
+                onClick={() => {
+                  sortBy("date_device_available");
+                }}
+              >
+                Date Available
+              </button>
+            </th>
+            <th>
+              <button
+                onClick={() => {
+                  sortBy("battery_level");
+                }}
+              >
+                Battery Level
+              </button>
+            </th>
+            <th>
+              <button
+                onClick={() => {
+                  sortBy("internal_temperature");
+                }}
+              >
+                Temp
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {devices.map(device => (
+            <DeviceRow key={device.id} device={device} />
+          ))}
+        </tbody>
+      </table>
+    </>
   );
 };
 
