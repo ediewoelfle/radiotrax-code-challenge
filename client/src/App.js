@@ -63,7 +63,9 @@ class App extends React.Component {
             devices: response.data
           });
         },
-        error => console.log("error", error)
+        error => {
+          alert(error);
+        }
       );
   }
 
