@@ -1,6 +1,9 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+
+const url = "http://localhost:3000/devices";
 
 export const Login = ({ getDevices }) => {
   return (
@@ -19,8 +22,16 @@ export const Login = ({ getDevices }) => {
       })}
       onSubmit={(values, actions) => {
         const credentials = btoa(values.username + ":" + values.password);
-        const authHeader = "Basic " + credentials;
-        console.log("authHeader", authHeader);
+        axios
+          .get(url, { headers: { authorization: `Basic ${credentials}` } })
+          .then(
+            response => {
+              console.log("response", response);
+            },
+            error => {
+              console.log("error", error);
+            }
+          );
       }}
       render={({ errors, status, touched, isSubmitting }) => (
         <Form>
