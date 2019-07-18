@@ -1,4 +1,10 @@
 import React from "react";
+// import * as R from "ramda";
+
+// const sortByDate = R.sortBy(R.prop("date_device_available"));
+// const sortByBattery = R.sortBy(R.prop("battery_level"));
+// const sortyByTemp = R.sortBy(R.prop("internal_temperature"));
+// const sortById = R.sortBy(R.prop("device_id"));
 
 export const Devices = ({ devices }) => {
   return (
@@ -6,7 +12,7 @@ export const Devices = ({ devices }) => {
       <thead>
         <tr>
           <th>#</th>
-          <th>Device ID</th>
+          <th>Device Id</th>
           <th>Firmware</th>
           <th>Date Available</th>
           <th>Battery Level</th>
@@ -15,7 +21,7 @@ export const Devices = ({ devices }) => {
       </thead>
       <tbody>
         {devices.map(device => (
-          <DeviceRow device={device} />
+          <DeviceRow key={device.id} device={device} />
         ))}
       </tbody>
     </table>
@@ -24,19 +30,17 @@ export const Devices = ({ devices }) => {
 
 const DeviceRow = device => {
   const {
-    application_code,
-    asset_identifier,
+    // application_code,
+    // asset_identifier,
     battery_level,
     date_device_available,
     device_id,
     firmware_version,
     id,
-    internal_temperature,
-    manufacturer,
-    status
+    internal_temperature
+    // manufacturer,
+    // status
   } = device.device;
-
-  console.log("deviceId", device_id);
   return (
     <tr>
       <td>{id}</td>
