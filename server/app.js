@@ -3,12 +3,16 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+var cors = require("cors");
 
 var indexRouter = require("./routes/index");
 var devicesRouter = require("./routes/devices");
 const auth = require("./auth");
 
 var app = express();
+
+// Adding this to get around the 'No Acess-Control-Allow-Origin' header --EdieDanger
+app.use(cors());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
