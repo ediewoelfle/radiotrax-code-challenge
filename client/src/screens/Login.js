@@ -18,6 +18,7 @@ export const Login = () => {
       })}
       onSubmit={(values, actions) => {
         console.log("values", values);
+        console.log("encoded", btoa(values.username + ":" + values.password));
       }}
       render={({ errors, status, touched, isSubmitting }) => (
         <Form>
