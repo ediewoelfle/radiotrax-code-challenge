@@ -1,9 +1,39 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { login, newData, reset } from "../redux/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 export const Login = props => {
-  const { login } = props;
+  const { url } = props;
+  const logged = useSelector(state => state.loggedReducer);
+  const dispatch = useDispatch();
+
+  if (logged) return null;
+
+  // basic login to retrieve data
+  const signin = values => {
+    const credentials = btoa(`${values.username}:${values.password}`);
+
+    axios
+      .get(url, {
+        headers: {
+          authorization: `Basic ${credentials}`
+        }
+      })
+      .then(
+        response => {
+          dispatch(newData(response.data));
+          dispatch(reset(response.data));
+          dispatch(login());
+        },
+        error => {
+          alert(error);
+        }
+      );
+  };
+
   return (
     <Formik
       initialValues={{ username: "", password: "" }}
@@ -19,7 +49,7 @@ export const Login = props => {
           .max(50, "Too Long!")
       })}
       onSubmit={(values, actions) => {
-        login(values);
+        signin(values);
       }}
       render={({ errors, status, touched, isSubmitting }) => (
         <Form>
