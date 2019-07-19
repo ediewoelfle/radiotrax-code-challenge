@@ -4,50 +4,48 @@ import { Login } from "./screens/Login";
 import { Devices } from "./screens/Devices";
 import * as R from "ramda";
 import axios from "axios";
+import { login } from "./redux/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 const url = "http://localhost:3000/devices";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
+const App = () => {
+  const logged = useSelector(state => state.loggedReducer);
+  console.log("logged", logged);
+  const dispatch = useDispatch();
 
-    // holding for two arrays, one for display and one with the original data. Thinking of a better way to do this. --EdieDanger
-    this.state = {
-      data: null,
-      devices: null
-    };
+  let state = {
+    data: null,
+    devices: null
+  };
 
-    this.sortBy = this.sortBy.bind(this);
-    this.login = this.login.bind(this);
-    this.filterBy = this.filterBy.bind(this);
-    this.reset = this.reset.bind(this);
-  }
-
-  reset() {
-    this.setState({ ...this.state, devices: this.state.data });
-  }
+  const reset = () => {
+    state = { ...state, devices: state.data };
+  };
 
   // using ramda functions to sort the data by a key and save to the display array
-  sortBy(key) {
-    this.setState({
-      ...this.state,
+  const sortBy = key => {
+    state = {
+      ...state,
       devices: R.sortBy(R.prop(key), this.state.devices)
-    });
-  }
+    };
+  };
 
   // use this for the filter
-  filterBy(key, value) {
-    this.setState({
-      ...this.state,
+  const filterBy = (key, value) => {
+    state = {
+      ...state,
       devices: R.filter(device => {
         return device[key] === value;
       }, this.state.data)
-    });
-  }
+    };
+  };
 
   // basic login to retrieve data
-  login(values) {
+  const signin = values => {
     const credentials = btoa(`${values.username}:${values.password}`);
+
+    console.log("credentials", credentials);
 
     axios
       .get(url, {
@@ -57,31 +55,31 @@ class App extends React.Component {
       })
       .then(
         response => {
-          this.setState({
-            ...this.state,
+          state = {
+            ...state,
             data: response.data,
             devices: response.data
-          });
+          };
+
+          dispatch(login());
         },
         error => {
           alert(error);
         }
       );
-  }
+  };
 
-  render() {
-    return (
-      <div className="App">
-        {!this.state.data && <Login login={this.login} />}
-        <Devices
-          devices={this.state.devices}
-          sortBy={this.sortBy}
-          filterBy={this.filterBy}
-          reset={this.reset}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      {!logged && <Login login={signin} />}
+      <Devices
+        devices={state.devices}
+        sortBy={sortBy}
+        filterBy={filterBy}
+        reset={reset}
+      />
+    </div>
+  );
+};
 
 export default App;
