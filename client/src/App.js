@@ -4,7 +4,7 @@ import { Login } from "./screens/Login";
 import { Devices } from "./screens/Devices";
 import * as R from "ramda";
 import axios from "axios";
-import { login } from "./redux/actions";
+import { login, newData } from "./redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 
 const url = "http://localhost:3000/devices";
@@ -12,6 +12,7 @@ const url = "http://localhost:3000/devices";
 const App = () => {
   const logged = useSelector(state => state.loggedReducer);
   console.log("logged", logged);
+  const data = useSelector(state => state.dataReducer);
   const dispatch = useDispatch();
 
   let state = {
@@ -45,8 +46,6 @@ const App = () => {
   const signin = values => {
     const credentials = btoa(`${values.username}:${values.password}`);
 
-    console.log("credentials", credentials);
-
     axios
       .get(url, {
         headers: {
@@ -55,12 +54,7 @@ const App = () => {
       })
       .then(
         response => {
-          state = {
-            ...state,
-            data: response.data,
-            devices: response.data
-          };
-
+          dispatch(newData(response.data));
           dispatch(login());
         },
         error => {
@@ -73,7 +67,7 @@ const App = () => {
     <div className="App">
       {!logged && <Login login={signin} />}
       <Devices
-        devices={state.devices}
+        devices={data}
         sortBy={sortBy}
         filterBy={filterBy}
         reset={reset}
