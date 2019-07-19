@@ -11,7 +11,6 @@ const url = "http://localhost:3000/devices";
 
 const App = () => {
   const logged = useSelector(state => state.loggedReducer);
-  console.log("logged", logged);
   const data = useSelector(state => state.dataReducer);
   const dispatch = useDispatch();
 
